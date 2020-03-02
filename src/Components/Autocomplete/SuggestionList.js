@@ -1,12 +1,13 @@
 import React from 'react';
 import SuggestionOption from './SuggestionOption';
+import css from './Autocomplete.module.css';
 
-function SuggestionList({ suggestionList, updateResult }) {
+function SuggestionList({ suggestionList, handleSelect }) {
   return (
     <ul>
       {suggestionList.map(item => (
-        <li>
-          <SuggestionOption pokemon={item} updateResult={updateResult} />
+        <li className={css.option}>
+          <SuggestionOption pokemon={item} handleSelect={handleSelect} />
         </li>
       ))}
     </ul>

@@ -1,7 +1,7 @@
 import React from 'react';
 
-function SearchButton({ updateResult }) {
-  return <button onClick={updateResult}>Search</button>;
+function SearchButton({ displayResult }) {
+  return <button onClick={displayResult}>I choose you!</button>;
 }
 
 export default SearchButton;

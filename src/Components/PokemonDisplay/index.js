@@ -3,14 +3,16 @@ import PokemonImage from './PokemonImage';
 import PokemonInfo from './PokemonInfo';
 import css from './PokemonDisplay.module.css';
 
-function PokemonDisplay({ result, updateResult }) {
-  return (
-    <div id={css.resultsBox}>
-      <h2>Search result:</h2>
-      <PokemonImage updateResult={updateResult} result={result} />
-      <PokemonInfo updateResult={updateResult} result={result} />
-    </div>
-  );
+function PokemonDisplay({ searchPressed, result, resetPage }) {
+  if (searchPressed) {
+    return (
+      <div id={css.resultsBox}>
+        <PokemonImage foundPoke={result[0]} />
+        <PokemonInfo foundPoke={result[0]} resetPage={resetPage} />
+      </div>
+    );
+  }
+  return null;
 }
 
 export default PokemonDisplay;

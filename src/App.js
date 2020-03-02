@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import SearchBar from './Components/SearchBar';
 import Autocomplete from './Components/Autocomplete';
@@ -8,18 +8,35 @@ function App() {
   //State that manages the search term:
   const [searchTerm, setSearchTerm] = useState('');
   //State that manages the result of the search (the displayed pokemon):
-  const [result, setResult] = useState([`sample result`]);
+  const [result, setResult] = useState(['']);
 
-  //Function to update searchTerm:
+  const [searchPressed, setSearchPressed] = useState(false);
+
+  //Function to update searchTerm via text input:
   function handleChange(event) {
     setSearchTerm(event.target.value);
   }
-  //Function to update result (will run when something in SuggestionList -OR- the search button is clicked):
-  function updateResult() {
-    //Needs to run setResult(searchTerm)
-    setResult([]);
-    console.log('result: ' + result);
+
+  //Function to update search term via clicking on object:
+  function handleSelect(option) {
+    setSearchTerm(option);
   }
+
+  function displayResult() {
+    setSearchPressed(!searchPressed);
+    console.log(result);
+  }
+
+  function resetPage() {
+    setSearchPressed(!searchPressed);
+    setSearchTerm('');
+  }
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/pokemon?search=${searchTerm}`)
+      .then(res => res.json())
+      .then(data => setResult(data));
+  }, [searchTerm]);
 
   return (
     <div className="App">
@@ -27,10 +44,15 @@ function App() {
       <SearchBar
         handleChange={handleChange}
         searchTerm={searchTerm}
-        updateResult={updateResult}
+        displayResult={displayResult}
+        resetPage={resetPage}
       />
-      <Autocomplete searchTerm={searchTerm} updateResult={updateResult} />
-      <PokemonDisplay updateResult={updateResult} result={result} />
+      <Autocomplete searchTerm={searchTerm} handleSelect={handleSelect} />
+      <PokemonDisplay
+        searchPressed={searchPressed}
+        result={result}
+        resetPage={resetPage}
+      />
     </div>
   );
 }

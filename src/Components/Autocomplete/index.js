@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import SuggestionList from './SuggestionList';
+import css from './Autocomplete.module.css';
 
-function Autocomplete({ searchTerm, updateResult }) {
+function Autocomplete({ searchTerm, handleSelect }) {
   //State that manages the list of suggestions as the input is typed:
   const [suggestionList, setSuggestionList] = useState([]);
 
@@ -15,7 +16,7 @@ function Autocomplete({ searchTerm, updateResult }) {
   return (
     <SuggestionList
       suggestionList={suggestionList}
-      updateResult={updateResult}
+      handleSelect={handleSelect}
     />
   );
 }
